@@ -1,0 +1,10 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"description": "Movies",
+		"folder": {
+			"name": "FormBDED"
+		},
+		"annotations": []
+	}
+}
