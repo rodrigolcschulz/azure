@@ -1,0 +1,32 @@
+{
+	"name": "SqlServerTablemovies",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer1Movies",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "FormBDED"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Movies",
+				"type": "varchar"
+			},
+			{
+				"name": "Title",
+				"type": "varchar"
+			},
+			{
+				"name": "genres",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tblMovies"
+		}
+	}
+}
