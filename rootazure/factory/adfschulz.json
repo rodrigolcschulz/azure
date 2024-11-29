@@ -1,0 +1,9 @@
+{
+	"name": "adfschulz",
+	"properties": {
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "true"
+		}
+	},
+	"location": "brazilsouth"
+}
