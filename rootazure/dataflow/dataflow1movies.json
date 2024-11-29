@@ -22,6 +22,9 @@
 				},
 				{
 					"name": "Moviesacima1950"
+				},
+				{
+					"name": "DerivadaGenero"
 				}
 			],
 			"scriptLines": [
@@ -46,7 +49,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectCorrName",
-				"SelectCorrName filter(toInteger(year) > 1950) ~> Moviesacima1950"
+				"SelectCorrName filter(toInteger(year) > 1950) ~> Moviesacima1950",
+				"Moviesacima1950 derive(PrimaryGenre = iif(locate('|', genres) > 1, left(genres, locate('|', genres) -1), genres)) ~> DerivadaGenero"
 			]
 		}
 	}
