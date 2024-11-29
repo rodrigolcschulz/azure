@@ -15,7 +15,15 @@
 					"name": "moviesDL"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "movies_DB",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesDLagg"
+				}
+			],
 			"transformations": [
 				{
 					"name": "SelectCorrName"
@@ -25,6 +33,12 @@
 				},
 				{
 					"name": "DerivadaGenero"
+				},
+				{
+					"name": "RankMoviesbyRate"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -50,7 +64,34 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectCorrName",
 				"SelectCorrName filter(toInteger(year) > 1950) ~> Moviesacima1950",
-				"Moviesacima1950 derive(PrimaryGenre = iif(locate('|', genres) > 1, left(genres, locate('|', genres) -1), genres)) ~> DerivadaGenero"
+				"Moviesacima1950 derive(PrimaryGenre = iif(locate('|', genres) > 1, left(genres, locate('|', genres) -1), genres)) ~> DerivadaGenero",
+				"DerivadaGenero window(over(PrimaryGenre,",
+				"          year),",
+				"     asc({Rotten Tomato}, true),",
+				"     RatingsRank = rank()) ~> RankMoviesbyRate",
+				"RankMoviesbyRate aggregate(groupBy(PrimaryGenre,",
+				"          year),",
+				"     AverageRating = avg(toInteger({Rotten Tomato})),",
+				"          HighestRated = first(title),",
+				"          LowerRated = last(title),",
+				"          NumberOfMovies = count()) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          movie as string,",
+				"          title as string,",
+				"          genres as string,",
+				"          year as string,",
+				"          Rating as string,",
+				"          {Rotton Tomato} as string",
+				"     ),",
+				"     partitionFileNames:['MoviesDLfinal.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> MoviesDLagg"
 			]
 		}
 	}
