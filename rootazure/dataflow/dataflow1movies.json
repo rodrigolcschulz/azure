@@ -19,6 +19,9 @@
 			"transformations": [
 				{
 					"name": "SelectCorrName"
+				},
+				{
+					"name": "Moviesacima1950"
 				}
 			],
 			"scriptLines": [
@@ -42,7 +45,8 @@
 				"          {Rotten Tomato} = {Rotton Tomato}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SelectCorrName"
+				"     skipDuplicateMapOutputs: true) ~> SelectCorrName",
+				"SelectCorrName filter(toInteger(year) > 1950) ~> Moviesacima1950"
 			]
 		}
 	}
