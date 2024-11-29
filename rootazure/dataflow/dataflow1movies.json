@@ -1,0 +1,17 @@
+{
+	"name": "dataflow1movies",
+	"properties": {
+		"folder": {
+			"name": "transf_movies"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				""
+			]
+		}
+	}
+}
